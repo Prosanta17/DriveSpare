@@ -53,7 +53,7 @@ const CarDetailsModal: React.FC<CarDetailsModalProps> = ({
         </>
       ) : (
         <div>
-          <h2 className="text-4xl font-bold font-oswald mt-3 mb-5">
+          <h2 className="text-2xl md:text-4xl font-bold font-oswald mt-3 mb-5">
             {car.name}
           </h2>
           <img
@@ -82,13 +82,25 @@ const CarDetailsModal: React.FC<CarDetailsModalProps> = ({
           <div className="my-3">
             <h3 className="font-bold uppercase text-sm mb-2">SPECIFICATIONS</h3>
             {car.tags?.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
+              <Tag key={tag} className="border-primary">
+                {tag}
+              </Tag>
             ))}
           </div>
           <p className="text-xs text-gray-500 italic">
-            Created on:{" "}
+            Last Updated:{" "}
             {car.createdAt
-              ? new Date(car.createdAt).toLocaleDateString()
+              ? new Date(car.createdAt).toLocaleString("en-US", {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                }) +
+                " | " +
+                new Date(car.createdAt).toLocaleString("en-US", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })
               : "Unknown"}
           </p>
         </div>

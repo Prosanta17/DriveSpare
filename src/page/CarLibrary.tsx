@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Input, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { IoIosSearch } from "react-icons/io";
-
+import axios from "axios";
 import CarCard from "../components/CarCard";
 import CarDetailsModal from "../components/CarDetailsModal";
 import FilterModal from "../components/FilterModal";
@@ -10,7 +10,6 @@ import NoResult from "../assets/no-result.png";
 
 import {
   fetchCars,
-  fetchCarById,
   fetchCarTags,
   fetchCarTypes,
   fetchFilteredCars,
@@ -19,7 +18,7 @@ import type { Car } from "../types/Car";
 import type { MenuProps } from "antd";
 import { Link } from "react-router-dom";
 
-const FilterIcon = (
+const FilterIcon: React.ReactNode = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="18"
@@ -35,7 +34,7 @@ const FilterIcon = (
   </svg>
 );
 
-const ShortIcon = (
+const ShortIcon: React.ReactNode = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -52,25 +51,27 @@ const ShortIcon = (
   </svg>
 );
 
+interface SortFields {
+  name: "name";
+  createdAt: "createdAt";
+}
+
 const CarLibrary: React.FC = () => {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [carDetailLoading, setCarDetailLoading] = useState<boolean>(false);
-
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
   const [carTypes, setCarTypes] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [selectedType, setSelectedType] = useState<string | undefined>();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
-  const [sortBy, setSortBy] = useState<"name" | "createdAt">("createdAt");
+  const [sortBy, setSortBy] = useState<keyof SortFields>("createdAt");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
 
-  const toggleSort = (field: "name" | "createdAt") => {
+  const toggleSort = (field: keyof SortFields): void => {
     if (sortBy === field) {
       setSortOrder((prevOrder) => (prevOrder === "ASC" ? "DESC" : "ASC"));
     } else {
@@ -117,16 +118,15 @@ const CarLibrary: React.FC = () => {
   ];
 
   useEffect(() => {
-    const loadCars = async () => {
+    const loadCars = async (): Promise<void> => {
       setLoading(true);
       try {
         const query = new URLSearchParams();
         query.append("sortBy", sortBy);
         query.append("sortOrder", sortOrder);
-        const res = await fetch(
+        const { data } = await axios.get(
           `https://cars-mock-api-new-6e7a623e6570.herokuapp.com/api/cars?${query.toString()}`
         );
-        const data = await res.json();
         setCars(data);
       } catch (error) {
         console.error(error);
@@ -142,7 +142,7 @@ const CarLibrary: React.FC = () => {
     fetchCarTags().then(setTags);
   }, []);
 
-  const handleApplyFilters = () => {
+  const handleApplyFilters = (): void => {
     setIsFilterModalOpen(false);
     setLoading(true);
     fetchFilteredCars(selectedType, selectedTags)
@@ -151,18 +151,20 @@ const CarLibrary: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
-  const handleResetFilters = () => {
+  const handleResetFilters = (): void => {
     setSelectedType(undefined);
     setSelectedTags([]);
     fetchCars().then(setCars);
     setIsFilterModalOpen(false);
   };
 
-  const handleCardClick = async (id: string) => {
+  const handleCardClick = async (id: string): Promise<void> => {
     setModalOpen(true);
     setCarDetailLoading(true);
     try {
-      const car = await fetchCarById(id);
+      const { data: car } = await axios.get(
+        `https://cars-mock-api-new-6e7a623e6570.herokuapp.com/api/cars/${id}`
+      );
       setSelectedCar(car);
     } catch (err) {
       console.error(err);
@@ -171,7 +173,7 @@ const CarLibrary: React.FC = () => {
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string): void => {
     setCars((prev) => prev.filter((car) => car.id !== id));
   };
 
@@ -182,7 +184,10 @@ const CarLibrary: React.FC = () => {
   return (
     <div className="w-full px-6 py-10">
       {loading ? (
-        <div className="flex justify-center items-center h-screen">
+        <div
+          className="flex justify-center items-center"
+          style={{ height: `calc(100vh - 100px)` }}
+        >
           <Spin indicator={<LoadingOutlined spin />} size="large" />
         </div>
       ) : (
@@ -192,7 +197,7 @@ const CarLibrary: React.FC = () => {
               size="large"
               placeholder="Search a car"
               prefix={<IoIosSearch className="text-xl" />}
-              className="rounded-full shadow-search text-sm h-10 w-72"
+              className="rounded-full shadow-search text-sm h-10 w-72 mr-2"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -225,7 +230,10 @@ const CarLibrary: React.FC = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center text-gray-500 mt-10">
+            <div
+              className="flex flex-col justify-center items-center text-gray-500 mt-10"
+              style={{ height: `calc(100vh - 300px)` }}
+            >
               <img src={NoResult} alt="no-result" className="mx-auto mb-4" />
               <p className="font-semibold">
                 No results found with '{searchTerm}'.
@@ -235,7 +243,7 @@ const CarLibrary: React.FC = () => {
 
           <Link
             to="/add-car"
-            className="hidden fixed bottom-10 right-10 md:inline-block bg-primary text-white text-base font-bold px-8 py-3 rounded-full hover:bg-purple-700 transition"
+            className="fixed bottom-10 right-10 md:inline-block bg-primary text-white text-base font-bold px-8 py-3 rounded-full hover:bg-purple-700 transition"
           >
             + Add Car
           </Link>
@@ -264,5 +272,4 @@ const CarLibrary: React.FC = () => {
     </div>
   );
 };
-
 export default CarLibrary;

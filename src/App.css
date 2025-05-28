@@ -1,3 +1,7 @@
+:root {
+    --primary-color: #9B72D2;
+}
+
 nav a.active {
     position: relative;
 }
@@ -6,7 +10,7 @@ nav a.active::after {
     position: absolute;
     width: 50%;
     height: 2px;
-    background-color: #9B72D2;
+    background-color: var(--primary-color);
     bottom: -5px;
     left: 0;
     border-radius: 15px;
@@ -42,7 +46,7 @@ nav a.active::after {
 }
 .ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover,
 :where(.css-dev-only-do-not-override-vrrzze).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover {
-    border-color: #9B72D2;
+    border-color: var(--primary-color);
     color: #000;
 }
 .filter-modal.ant-modal .ant-collapse .ant-collapse-header {
@@ -92,6 +96,58 @@ nav a.active::after {
 }
 .rounded-select.ant-select-multiple .ant-select-selector .ant-select-selection-wrap {
     min-height: 45px;
+}
+.carType-Select.ant-select-dropdown .ant-select-item-option::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Crect x='0.5' y='0.5' width='23' height='23' rx='11.5' stroke='black'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 8px;
+}
+.carType-Select.ant-select-dropdown .ant-select-item-option-selected::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Crect width='24' height='24' rx='12' fill='%23BCF14B'/%3E%3Cpath d='M10.8534 15.6488L16.6044 9.94625L17.2094 9.34638L17.8825 8.67889C18.0392 8.52359 18.0392 8.27177 17.8825 8.11647C17.7259 7.96118 17.472 7.96118 17.3153 8.11647L16.807 8.62051L16.2225 9.2001L10.2862 15.0864C10.2074 15.1645 10.1004 15.2059 9.98393 15.2046C9.85843 15.2059 9.75143 15.1645 9.67266 15.0864L6.68469 12.1236C6.52804 11.9683 6.27412 11.9683 6.11746 12.1236C5.96085 12.2789 5.96085 12.5307 6.11746 12.686L9.10543 15.6488C9.34009 15.8815 9.65589 16.0036 9.98393 15.9999C10.3029 16.0036 10.6187 15.8815 10.8534 15.6488Z' fill='%23000' stroke='%23000' stroke-width='0.8'/%3E%3C/svg%3E");
+}
+.carType-Select.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: transparent;
+    font-weight: normal;
+    color: #000;
+}
+.carType-Select.ant-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    background-color: transparent
+}
+.carTag-Select.ant-select-dropdown .ant-select-item-option-state {
+    display: none;
+}
+.carTag-Select.ant-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    background: transparent;
+}
+.carTag-Select.ant-select-dropdown .ant-select-item::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Crect x='0.5' y='0.5' width='23' height='23' rx='3.5' stroke='black'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 8px;
+    margin-top: 1px;
+}
+.carTag-Select.ant-select-dropdown .ant-select-item-option-selected::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Crect width='24' height='24' rx='4' fill='%23BCF14B'/%3E%3Cpath d='M10.8534 15.6488L16.6044 9.94625L17.2094 9.34638L17.8825 8.67889C18.0392 8.52359 18.0392 8.27177 17.8825 8.11647C17.7259 7.96118 17.472 7.96118 17.3153 8.11647L16.807 8.62051L16.2225 9.2001L10.2862 15.0864C10.2074 15.1645 10.1004 15.2059 9.98393 15.2046C9.85843 15.2059 9.75143 15.1645 9.67266 15.0864L6.68469 12.1236C6.52804 11.9683 6.27412 11.9683 6.11746 12.1236C5.96085 12.2789 5.96085 12.5307 6.11746 12.686L9.10543 15.6488C9.34009 15.8815 9.65589 16.0036 9.98393 15.9999C10.3029 16.0036 10.6187 15.8815 10.8534 15.6488Z' fill='%23000' stroke='%23000' stroke-width='0.8'/%3E%3C/svg%3E");
+}
+.carTag-Select.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background: transparent;
+    font-weight: normal;
+    color: #000;
+}
+.ant-btn-color-primary {
+    box-shadow: none;
+}
+.ant-input-outlined:hover {
+    border-color: var(--primary-color);
 }
 @media only screen and (max-width: 992px) {
     .logo {

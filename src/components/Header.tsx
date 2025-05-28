@@ -4,11 +4,16 @@ import Logo from "../assets/logo.png";
 import { Drawer, Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
+interface NavItem {
+  name: string;
+  path: string;
+}
+
 const Header: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const location = useLocation();
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: "Home", path: "/" },
     { name: "Car Library", path: "/car-library" },
     { name: "Services", path: "/services" },
@@ -17,7 +22,7 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="w-full bg-white shadow-nav px-6 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-10 w-full bg-white shadow-nav px-6 py-4 flex items-center justify-between">
       {/* Logo */}
       <div className="logo">
         <Link to="/">
@@ -27,7 +32,7 @@ const Header: React.FC = () => {
 
       {/* Desktop Nav */}
       <nav className="hidden md:flex gap-8 text-sm">
-        {navItems.map((item) => (
+        {navItems.map((item: NavItem) => (
           <Link
             key={item.name}
             to={item.path}
@@ -65,7 +70,7 @@ const Header: React.FC = () => {
         open={open}
       >
         <nav className="flex flex-col gap-4 text-base">
-          {navItems.map((item) => (
+          {navItems.map((item: NavItem) => (
             <Link
               key={item.name}
               to={item.path}

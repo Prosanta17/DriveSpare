@@ -5,18 +5,31 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { fetchCarTags, fetchCarTypes } from "../api/cars";
 
+interface FormData {
+  name: string;
+  description: string;
+  carType: string;
+  tags: string[];
+  imageUrl: string;
+}
+
+interface FormErrors {
+  [key: string]: boolean;
+}
+
 const AddcarForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
     carType: "",
-    tags: [] as string[],
+    tags: [],
     imageUrl: "",
   });
 
   const [carTypes, setCarTypes] = useState<string[]>([]);
   const [tagOptions, setTagOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<FormErrors>({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,32 +42,42 @@ const AddcarForm: React.FC = () => {
       .catch(() => message.error("Failed to load tags"));
   }, []);
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     const { name, carType, tags, imageUrl, description } = formData;
+    let isValid = true;
+    const newErrors: FormErrors = {};
+
     if (!name || name.length > 50) {
       message.error("Car name is required and must be ≤ 50 characters.");
-      return false;
+      newErrors.name = true;
+      isValid = false;
     }
     if (description.length > 200) {
       message.error("Description must be ≤ 200 characters.");
-      return false;
+      newErrors.description = true;
+      isValid = false;
     }
     if (!carType) {
       message.error("Car type is required.");
-      return false;
+      newErrors.carType = true;
+      isValid = false;
     }
     if (!tags.length) {
       message.error("At least one tag must be selected.");
-      return false;
+      newErrors.tags = true;
+      isValid = false;
     }
     if (!imageUrl) {
       message.error("Image URL is required.");
-      return false;
+      newErrors.imageUrl = true;
+      isValid = false;
     }
-    return true;
+
+    setErrors(newErrors);
+    return isValid;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     if (!validateForm()) return;
 
     setLoading(true);
@@ -73,7 +96,7 @@ const AddcarForm: React.FC = () => {
   };
 
   return (
-    <div className="w-4/5 mx-auto">
+    <div className="w-full lg:w-3/5 mx-auto max-w-[575px]">
       <Card className="addcar-form">
         <div className="mb-4">
           <label htmlFor="name" className="block text-xs mb-2">
@@ -82,11 +105,15 @@ const AddcarForm: React.FC = () => {
           <Input
             id="name"
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setFormData({ ...formData, name: e.target.value });
+              setErrors({ ...errors, name: false });
+            }}
             maxLength={50}
             className="rounded-full text-xs h-12 px-4"
             size="large"
             placeholder="Enter car name"
+            status={errors.name ? "error" : ""}
           />
         </div>
         <div className="mb-4">
@@ -96,13 +123,15 @@ const AddcarForm: React.FC = () => {
           <TextArea
             id="description"
             value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+              setFormData({ ...formData, description: e.target.value });
+              setErrors({ ...errors, description: false });
+            }}
             maxLength={200}
             className="rounded-2xl text-xs px-4"
             placeholder="Enter here"
             autoSize={{ minRows: 3, maxRows: 5 }}
+            status={errors.description ? "error" : ""}
           />
         </div>
         <div className="mb-4">
@@ -115,8 +144,17 @@ const AddcarForm: React.FC = () => {
             showSearch
             placeholder="Select"
             optionFilterProp="label"
-            onChange={(value) => setFormData({ ...formData, carType: value })}
-            className="rounded-select text-xs h-12 w-full"
+            onChange={(value: string) => {
+              setFormData({ ...formData, carType: value });
+              setErrors({ ...errors, carType: false });
+            }}
+            className="rounded-select  text-xs h-12 w-full"
+            classNames={{
+              popup: {
+                root: "carType-Select",
+              },
+            }}
+            status={errors.carType ? "error" : ""}
             options={(carTypes || []).map((type: string) => ({
               label: type.charAt(0).toUpperCase() + type.slice(1),
               value: type,
@@ -134,7 +172,16 @@ const AddcarForm: React.FC = () => {
             placeholder="Select"
             className="rounded-select text-xs min-h-12 w-full"
             value={formData.tags}
-            onChange={(value) => setFormData({ ...formData, tags: value })}
+            classNames={{
+              popup: {
+                root: "carTag-Select",
+              },
+            }}
+            onChange={(value: string[]) => {
+              setFormData({ ...formData, tags: value });
+              setErrors({ ...errors, tags: false });
+            }}
+            status={errors.tags ? "error" : ""}
             options={(tagOptions || []).map((tag: string) => ({
               label: tag
                 .split("_")
@@ -151,15 +198,17 @@ const AddcarForm: React.FC = () => {
           <Input
             id="imageUrl"
             value={formData.imageUrl}
-            onChange={(e) =>
-              setFormData({ ...formData, imageUrl: e.target.value })
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setFormData({ ...formData, imageUrl: e.target.value });
+              setErrors({ ...errors, imageUrl: false });
+            }}
             className="rounded-full text-xs h-12 px-4"
             size="large"
             placeholder="Enter here"
+            status={errors.imageUrl ? "error" : ""}
           />
         </div>
-        <div className="text-center">
+        <div className="text-center mt-5 mb-3">
           <Button
             type="primary"
             loading={loading}

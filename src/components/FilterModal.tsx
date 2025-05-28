@@ -1,5 +1,5 @@
+import React from "react";
 import { Modal, Tag, Collapse, Button } from "antd";
-import type { FC } from "react";
 import { RiResetRightLine } from "react-icons/ri";
 import { IoIosArrowDown } from "react-icons/io";
 
@@ -16,7 +16,7 @@ interface Props {
   setSelectedTags: (tags: string[]) => void;
 }
 
-const FilterModal: FC<Props> = ({
+const FilterModal: React.FC<Props> = ({
   open,
   carTypes,
   tags,
@@ -28,7 +28,7 @@ const FilterModal: FC<Props> = ({
   setSelectedType,
   setSelectedTags,
 }) => {
-  const toggleTag = (tag: string) => {
+  const toggleTag = (tag: string): void => {
     if (selectedTags.includes(tag)) {
       setSelectedTags(selectedTags.filter((t) => t !== tag));
     } else {
@@ -77,7 +77,7 @@ const FilterModal: FC<Props> = ({
       <Collapse
         defaultActiveKey={["type", "tags"]}
         expandIconPosition="end"
-        expandIcon={({ isActive }) => (
+        expandIcon={({ isActive }: { isActive?: boolean }) => (
           <IoIosArrowDown
             style={{
               transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
