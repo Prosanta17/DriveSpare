@@ -3,7 +3,6 @@ import type { Car } from "../types/Car";
 import { useState, useEffect } from "react";
 import placeholderImg from "../assets/car-placeholder.jpg";
 import { fetchCars } from "../api/cars";
-import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface Props {
