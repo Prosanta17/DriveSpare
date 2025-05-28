@@ -149,6 +149,13 @@ nav a.active::after {
 .ant-input-outlined:hover {
     border-color: var(--primary-color);
 }
+.card-block .ant-skeleton .ant-skeleton-content .ant-skeleton-paragraph>li:first-child {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 190px;
+}
 @media only screen and (max-width: 992px) {
     .logo {
         width: 120px;

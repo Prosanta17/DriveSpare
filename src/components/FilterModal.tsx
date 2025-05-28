@@ -3,19 +3,21 @@ import { Modal, Tag, Collapse, Button } from "antd";
 import { RiResetRightLine } from "react-icons/ri";
 import { IoIosArrowDown } from "react-icons/io";
 
+// Interface defining the props for the FilterModal component
 interface Props {
-  open: boolean;
-  carTypes: string[];
-  tags: string[];
-  selectedType?: string;
-  selectedTags: string[];
-  onCancel: () => void;
-  onApply: () => void;
-  onReset: () => void;
-  setSelectedType: (type?: string) => void;
-  setSelectedTags: (tags: string[]) => void;
+  open: boolean; // Controls modal visibility
+  carTypes: string[]; // Array of available car types
+  tags: string[]; // Array of available tags
+  selectedType?: string; // Currently selected car type
+  selectedTags: string[]; // Array of selected tags
+  onCancel: () => void; // Handler for modal close
+  onApply: () => void; // Handler for applying filters
+  onReset: () => void; // Handler for resetting filters
+  setSelectedType: (type?: string) => void; // Function to update selected car type
+  setSelectedTags: (tags: string[]) => void; // Function to update selected tags
 }
 
+// FilterModal component for filtering cars by type and tags
 const FilterModal: React.FC<Props> = ({
   open,
   carTypes,
@@ -28,6 +30,7 @@ const FilterModal: React.FC<Props> = ({
   setSelectedType,
   setSelectedTags,
 }) => {
+  // Function to toggle tag selection
   const toggleTag = (tag: string): void => {
     if (selectedTags.includes(tag)) {
       setSelectedTags(selectedTags.filter((t) => t !== tag));
@@ -40,6 +43,7 @@ const FilterModal: React.FC<Props> = ({
     <Modal
       open={open}
       footer={[
+        // Custom Apply button in modal footer
         <Button
           key="apply"
           type="primary"
@@ -61,6 +65,7 @@ const FilterModal: React.FC<Props> = ({
       centered
       className="filter-modal"
     >
+      {/* Reset filters link */}
       <a
         onClick={onReset}
         className="text-sm text-black inline-block mb-2 hover:text-primary"
@@ -74,6 +79,7 @@ const FilterModal: React.FC<Props> = ({
         Filter By
       </div>
 
+      {/* Collapsible filter sections */}
       <Collapse
         defaultActiveKey={["type", "tags"]}
         expandIconPosition="end"
@@ -93,6 +99,7 @@ const FilterModal: React.FC<Props> = ({
               <span className="text-xs uppercase font-semibold">Car Type</span>
             ),
             children: (
+              // Car type filter tags
               <div className="flex flex-wrap gap-1">
                 {carTypes.map((type) => (
                   <Tag
@@ -120,6 +127,7 @@ const FilterModal: React.FC<Props> = ({
               <span className="text-xs uppercase font-semibold">Tags</span>
             ),
             children: (
+              // Tags filter section
               <div className="flex flex-wrap gap-1">
                 {tags.map((tag) => (
                   <Tag

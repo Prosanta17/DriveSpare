@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { fetchCarTags, fetchCarTypes } from "../api/cars";
 
+// Define form data interface
 interface FormData {
   name: string;
   description: string;
@@ -13,6 +14,7 @@ interface FormData {
   imageUrl: string;
 }
 
+// Define form errors interface
 interface FormErrors {
   [key: string]: boolean;
 }
@@ -25,13 +27,13 @@ const AddcarForm: React.FC = () => {
     tags: [],
     imageUrl: "",
   });
-
   const [carTypes, setCarTypes] = useState<string[]>([]);
   const [tagOptions, setTagOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const navigate = useNavigate();
 
+  // Fetch car types and tags on component mount
   useEffect(() => {
     fetchCarTypes()
       .then(setCarTypes)
@@ -42,31 +44,37 @@ const AddcarForm: React.FC = () => {
       .catch(() => message.error("Failed to load tags"));
   }, []);
 
+  // Validate form fields before submission
   const validateForm = (): boolean => {
     const { name, carType, tags, imageUrl, description } = formData;
     let isValid = true;
     const newErrors: FormErrors = {};
 
+    // Check name field
     if (!name || name.length > 50) {
       message.error("Car name is required and must be ≤ 50 characters.");
       newErrors.name = true;
       isValid = false;
     }
+    // Check description length
     if (description.length > 200) {
       message.error("Description must be ≤ 200 characters.");
       newErrors.description = true;
       isValid = false;
     }
+    // Check car type
     if (!carType) {
       message.error("Car type is required.");
       newErrors.carType = true;
       isValid = false;
     }
+    // Check tags
     if (!tags.length) {
       message.error("At least one tag must be selected.");
       newErrors.tags = true;
       isValid = false;
     }
+    // Check image URL
     if (!imageUrl) {
       message.error("Image URL is required.");
       newErrors.imageUrl = true;
@@ -77,6 +85,7 @@ const AddcarForm: React.FC = () => {
     return isValid;
   };
 
+  // Handle form submission
   const handleSubmit = async (): Promise<void> => {
     if (!validateForm()) return;
 
@@ -95,9 +104,11 @@ const AddcarForm: React.FC = () => {
     }
   };
 
+  // Render form component
   return (
     <div className="w-full lg:w-3/5 mx-auto max-w-[575px]">
       <Card className="addcar-form">
+        {/* Car name input field */}
         <div className="mb-4">
           <label htmlFor="name" className="block text-xs mb-2">
             Car name<span className="text-danger">*</span>
@@ -116,6 +127,7 @@ const AddcarForm: React.FC = () => {
             status={errors.name ? "error" : ""}
           />
         </div>
+        {/* Description textarea field */}
         <div className="mb-4">
           <label htmlFor="description" className="block text-xs mb-2">
             Description
@@ -134,6 +146,7 @@ const AddcarForm: React.FC = () => {
             status={errors.description ? "error" : ""}
           />
         </div>
+        {/* Car type select field */}
         <div className="mb-4">
           <label htmlFor="carType" className="block text-xs mb-2">
             Car type<span className="text-danger">*</span>
@@ -160,6 +173,7 @@ const AddcarForm: React.FC = () => {
             }))}
           />
         </div>
+        {/* Specifications/tags multi-select field */}
         <div className="mb-4">
           <label htmlFor="tags" className="block text-xs mb-2">
             Specifications<span className="text-danger">*</span>
@@ -190,6 +204,7 @@ const AddcarForm: React.FC = () => {
             }))}
           />
         </div>
+        {/* Image URL input field */}
         <div className="mb-4">
           <label htmlFor="imageUrl" className="block text-xs mb-2">
             Car Image URL<span className="text-danger">*</span>
@@ -207,6 +222,7 @@ const AddcarForm: React.FC = () => {
             status={errors.imageUrl ? "error" : ""}
           />
         </div>
+        {/* Submit button */}
         <div className="text-center mt-5 mb-3">
           <Button
             type="primary"

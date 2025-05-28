@@ -10,6 +10,7 @@ import "@ant-design/v5-patch-for-react-19";
 import Contact from "./page/Contact";
 import AddCar from "./page/AddCar";
 import BackToTop from "./components/BackToTop";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/add-car" element={<AddCar />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
       <BackToTop />
     </div>
   );

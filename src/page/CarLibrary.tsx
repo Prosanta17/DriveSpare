@@ -8,7 +8,9 @@ import CarDetailsModal from "../components/CarDetailsModal";
 import FilterModal from "../components/FilterModal";
 import NoResult from "../assets/no-result.png";
 
+// Import API functions and types
 import {
+  fetchCarById,
   fetchCars,
   fetchCarTags,
   fetchCarTypes,
@@ -17,40 +19,10 @@ import {
 import type { Car } from "../types/Car";
 import type { MenuProps } from "antd";
 import { Link } from "react-router-dom";
+import FilterIcon from "../components/FilterIcon";
+import ShortIcon from "../components/ShortIcon";
 
-const FilterIcon: React.ReactNode = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="16"
-    viewBox="0 0 18 16"
-    fill="none"
-  >
-    <path
-      d="M14.7436 0.615383H3.25646C2.09608 0.615383 1.51589 0.615383 1.15541 0.953598C0.794922 1.29181 0.794922 1.83616 0.794922 2.92485V3.49085C0.794922 4.34241 0.794922 4.7682 1.00793 5.12116C1.22093 5.47413 1.61008 5.69319 2.38837 6.13132L4.77854 7.47684C5.30074 7.77075 5.56183 7.91778 5.74878 8.08008C6.13809 8.41805 6.37776 8.81518 6.48636 9.30232C6.53851 9.53616 6.53851 9.80989 6.53851 10.3572V12.5476C6.53851 13.2939 6.53851 13.667 6.74521 13.958C6.95193 14.2489 7.31905 14.3924 8.05334 14.6795C9.59476 15.282 10.3655 15.5833 10.9136 15.2405C11.4616 14.8977 11.4616 14.1144 11.4616 12.5476V10.3572C11.4616 9.80989 11.4616 9.53616 11.5138 9.30232C11.6223 8.81518 11.862 8.41805 12.2513 8.08008C12.4382 7.91778 12.6993 7.77075 13.2216 7.47684L15.6117 6.13132C16.39 5.69319 16.7792 5.47413 16.9922 5.12116C17.2052 4.7682 17.2052 4.34241 17.2052 3.49085V2.92485C17.2052 1.83616 17.2052 1.29181 16.8447 0.953598C16.4842 0.615383 15.904 0.615383 14.7436 0.615383Z"
-      stroke="black"
-      strokeWidth="1.23077"
-    />
-  </svg>
-);
-
-const ShortIcon: React.ReactNode = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="12"
-    viewBox="0 0 16 12"
-    fill="none"
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M11.6571 0C11.8426 0 12.0203 0.0730845 12.1494 0.202569L15.8065 3.86924C16.0702 4.13356 16.0635 4.55564 15.7916 4.81191C15.5197 5.06827 15.0856 5.06178 14.822 4.79742L12.3428 2.31182V11.3333C12.3428 11.7015 12.0358 12 11.6571 12C11.2784 12 10.9714 11.7015 10.9714 11.3333V2.31182L8.49224 4.79742C8.22865 5.06178 7.79455 5.06827 7.52264 4.81191C7.25074 4.55564 7.24406 4.13356 7.50774 3.86924L11.1649 0.202569C11.294 0.0730845 11.4716 0 11.6571 0ZM4.34285 0C4.72156 0 5.02857 0.29848 5.02857 0.666667V9.68818L7.50774 7.20258C7.77133 6.93822 8.20543 6.93173 8.47734 7.18809C8.74925 7.44436 8.75592 7.8664 8.49224 8.13076L4.83513 11.7974C4.70598 11.9269 4.52837 12 4.34285 12C4.15734 12 3.97973 11.9269 3.85058 11.7974L0.193444 8.13076C-0.0701994 7.8664 -0.063516 7.44436 0.208356 7.18809C0.480237 6.93173 0.914348 6.93822 1.17799 7.20258L3.65714 9.68818V0.666667C3.65714 0.29848 3.96415 0 4.34285 0Z"
-      fill="black"
-    />
-  </svg>
-);
-
+// Interface for sort fields
 interface SortFields {
   name: "name";
   createdAt: "createdAt";
@@ -71,6 +43,7 @@ const CarLibrary: React.FC = () => {
   const [sortBy, setSortBy] = useState<keyof SortFields>("createdAt");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
 
+  // Handle sorting logic
   const toggleSort = (field: keyof SortFields): void => {
     if (sortBy === field) {
       setSortOrder((prevOrder) => (prevOrder === "ASC" ? "DESC" : "ASC"));
@@ -80,6 +53,7 @@ const CarLibrary: React.FC = () => {
     }
   };
 
+  // Dropdown menu items for sorting
   const menuItems: MenuProps["items"] = [
     {
       key: "sortByName",
@@ -117,6 +91,7 @@ const CarLibrary: React.FC = () => {
     },
   ];
 
+  // Fetch cars on sort change
   useEffect(() => {
     const loadCars = async (): Promise<void> => {
       setLoading(true);
@@ -137,11 +112,13 @@ const CarLibrary: React.FC = () => {
     loadCars();
   }, [sortBy, sortOrder]);
 
+  // Fetch car types and tags on component mount
   useEffect(() => {
     fetchCarTypes().then(setCarTypes);
     fetchCarTags().then(setTags);
   }, []);
 
+  // Handle filter application
   const handleApplyFilters = (): void => {
     setIsFilterModalOpen(false);
     setLoading(true);
@@ -151,6 +128,7 @@ const CarLibrary: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
+  // Reset filters
   const handleResetFilters = (): void => {
     setSelectedType(undefined);
     setSelectedTags([]);
@@ -158,13 +136,12 @@ const CarLibrary: React.FC = () => {
     setIsFilterModalOpen(false);
   };
 
+  // Handle car card click
   const handleCardClick = async (id: string): Promise<void> => {
     setModalOpen(true);
     setCarDetailLoading(true);
     try {
-      const { data: car } = await axios.get(
-        `https://cars-mock-api-new-6e7a623e6570.herokuapp.com/api/cars/${id}`
-      );
+      const car = await fetchCarById(id);
       setSelectedCar(car);
     } catch (err) {
       console.error(err);
@@ -173,10 +150,12 @@ const CarLibrary: React.FC = () => {
     }
   };
 
+  // Handle car deletion
   const handleDelete = (id: string): void => {
     setCars((prev) => prev.filter((car) => car.id !== id));
   };
 
+  // Filter cars based on search term
   const filteredCars = cars.filter((car) =>
     car.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -184,6 +163,7 @@ const CarLibrary: React.FC = () => {
   return (
     <div className="w-full px-6 py-10">
       {loading ? (
+        // Loading spinner
         <div
           className="flex justify-center items-center"
           style={{ height: `calc(100vh - 100px)` }}
@@ -192,6 +172,7 @@ const CarLibrary: React.FC = () => {
         </div>
       ) : (
         <>
+          {/* Search and filter section */}
           <div className="mb-8 flex items-center justify-between">
             <Input
               size="large"
@@ -203,7 +184,7 @@ const CarLibrary: React.FC = () => {
             />
             <div className="flex items-center">
               <Button
-                icon={FilterIcon}
+                icon={<FilterIcon />}
                 onClick={() => setIsFilterModalOpen(true)}
                 className="rounded-full shadow-search text-sm h-10 font-semibold hover:border-primary focus:border-primary hover:text-primary"
               >
@@ -215,12 +196,13 @@ const CarLibrary: React.FC = () => {
                 overlayClassName="short-dropdown"
               >
                 <Button className="ml-2 rounded-full shadow-search text-sm h-10 font-semibold hover:border-primary focus:border-primary hover:text-primary">
-                  {ShortIcon} Sort
+                  {<ShortIcon />} Sort
                 </Button>
               </Dropdown>
             </div>
           </div>
 
+          {/* Car grid or no results message */}
           {filteredCars.length ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
               {filteredCars.map((car) => (
@@ -241,6 +223,7 @@ const CarLibrary: React.FC = () => {
             </div>
           )}
 
+          {/* Add car button */}
           <Link
             to="/add-car"
             className="fixed bottom-10 right-10 md:inline-block bg-primary text-white text-base font-bold px-8 py-3 rounded-full hover:bg-purple-700 transition"
@@ -248,6 +231,7 @@ const CarLibrary: React.FC = () => {
             + Add Car
           </Link>
 
+          {/* Modals */}
           <CarDetailsModal
             open={modalOpen}
             onClose={() => setModalOpen(false)}

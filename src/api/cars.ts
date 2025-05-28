@@ -59,3 +59,9 @@ export const fetchSortedCars = async (
   );
   return response.data;
 };
+
+// Deletes a car by its ID
+export const deleteCar = async (id: string): Promise<void> => {
+  const response = await axios.delete(`https://cars-mock-api-new-6e7a623e6570.herokuapp.com/api/cars/${id}`);
+  if (response.status !== 200) throw new Error("Failed to delete");
+};
