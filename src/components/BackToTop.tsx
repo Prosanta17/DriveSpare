@@ -2,7 +2,7 @@ import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
-const BackTOTop: React.FC = () => {
+const BackToTop: React.FC = () => {
   const [showButton, setShowButton] = useState<boolean>(false);
 
   useEffect(() => {
@@ -33,21 +33,6 @@ const BackTOTop: React.FC = () => {
           shape="circle"
           onClick={scrollToTop}
           className="fixed bottom-4 right-4"
-          style={
-            {
-              // position: "fixed",
-              // bottom: "20px",
-              // right: "20px",
-              // padding: "10px",
-              // backgroundColor: "#000",
-              // color: "#fff",
-              // border: "none",
-              // borderRadius: "50%",
-              // cursor: "pointer",
-              // width: "40px",
-              // height: "40px",
-            }
-          }
         >
           <FaArrowUp />
         </Button>
@@ -56,4 +41,4 @@ const BackTOTop: React.FC = () => {
   );
 };
 
-export default BackTOTop;
+export default BackToTop;
