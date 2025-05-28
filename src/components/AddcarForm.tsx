@@ -140,7 +140,6 @@ const AddcarForm: React.FC = () => {
           </label>
           <Select
             id="carType"
-            value={formData.carType}
             showSearch
             placeholder="Select"
             optionFilterProp="label"

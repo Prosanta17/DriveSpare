@@ -3,13 +3,15 @@ import type { Car } from "../types/Car";
 import { useState, useEffect } from "react";
 import placeholderImg from "../assets/car-placeholder.jpg";
 import { fetchCars } from "../api/cars";
+import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface Props {
   car: Car;
   onDelete: (id: string) => void;
 }
 
-const DeleteIcon = (
+const DeleteIcon: React.ReactNode = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -66,23 +68,34 @@ const DeleteIcon = (
 );
 
 const CarCard: React.FC<Props> = ({ car, onDelete }) => {
-  const [loading, setLoading] = useState(true);
-  const [imgSrc, setImgSrc] = useState(car.imageUrl);
-  const [deleting, setDeleting] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [imgSrc, setImgSrc] = useState<string>(car.imageUrl);
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  const handleFavorite = (e: any): void => {
+    e.stopPropagation();
+    setIsFavorite(!isFavorite);
+    if (!isFavorite) {
+      console.log("Favorite car added");
+    } else {
+      console.log("Favorite car removed");
+    }
+  };
 
   useEffect(() => {
     fetchCars()
       .then(() => setLoading(false))
-      .catch(console.error)
+      .catch((error: Error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
 
-  const showDeleteModal = () => {
+  const showDeleteModal = (): void => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteConfirm = async () => {
+  const handleDeleteConfirm = async (): Promise<void> => {
     setDeleting(true);
     try {
       const res = await fetch(
@@ -94,7 +107,7 @@ const CarCard: React.FC<Props> = ({ car, onDelete }) => {
       if (!res.ok) throw new Error("Failed to delete");
       message.success(`${car.name} deleted successfully`);
       onDelete(car.id);
-    } catch (error) {
+    } catch (error: unknown) {
       message.error("Failed to delete the car. Please try again.");
     } finally {
       setDeleting(false);
@@ -102,7 +115,7 @@ const CarCard: React.FC<Props> = ({ car, onDelete }) => {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     setIsModalOpen(false);
   };
 
@@ -132,16 +145,31 @@ const CarCard: React.FC<Props> = ({ car, onDelete }) => {
             src={imgSrc}
             className="h-48 w-full object-cover rounded-t-lg"
             loading="lazy"
-            onError={() => setImgSrc(placeholderImg)}
+            onError={(): void => setImgSrc(placeholderImg)}
           />
         }
         className="w-full shadow-card relative"
         style={{ borderRadius: 15 }}
       >
+        <div className="absolute top-4 left-4">
+          {isFavorite ? (
+            <FaHeart
+              className="text-base cursor-pointer"
+              style={{ color: "#FFD700" }}
+              onClick={handleFavorite}
+            />
+          ) : (
+            <FaRegHeart
+              className="text-base cursor-pointer"
+              style={{ color: "black" }}
+              onClick={handleFavorite}
+            />
+          )}
+        </div>
         <div className="flex justify-between items-center">
           <h3 className="text-base font-bold line-clamp-1">{car.name}</h3>
           <button
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLButtonElement>): void => {
               e.stopPropagation();
               showDeleteModal();
             }}
@@ -175,11 +203,11 @@ const CarCard: React.FC<Props> = ({ car, onDelete }) => {
           </span>
         }
         open={isModalOpen}
-        onOk={(e) => {
+        onOk={(e?: React.MouseEvent<HTMLElement>): void => {
           e?.stopPropagation?.();
           handleDeleteConfirm();
         }}
-        onCancel={(e) => {
+        onCancel={(e?: React.MouseEvent<HTMLElement>): void => {
           e?.stopPropagation?.();
           handleCancel();
         }}
@@ -213,5 +241,4 @@ const CarCard: React.FC<Props> = ({ car, onDelete }) => {
     </>
   );
 };
-
 export default CarCard;
