@@ -82,14 +82,6 @@ Then open your browser at `http://localhost:5173`
 
 Contributions are welcome! If you'd like to contribute to DriveSpare, please fork the repository and submit a pull request.
 
----
-
-## 📄 License
-
-[Insert license information]
-
----
-
 ## 👤 Author
 
 **Prosanta17**
