@@ -1,7 +1,7 @@
 import { Modal, Tag, Skeleton } from "antd";
-import type { Car } from "../types/Car";
+import type { Car } from "../../types/Car";
 import { useState, useEffect } from "react";
-import placeholderImg from "../assets/car-placeholder.jpg";
+import placeholderImg from "../../assets/car-placeholder.jpg";
 
 // Props interface for CarDetailsModal component
 interface CarDetailsModalProps {

@@ -3,10 +3,10 @@ import { Button, Dropdown, Input, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { IoIosSearch } from "react-icons/io";
 import axios from "axios";
-import CarCard from "../components/CarCard";
-import CarDetailsModal from "../components/CarDetailsModal";
-import FilterModal from "../components/FilterModal";
-import NoResult from "../assets/no-result.png";
+import CarCard from "./CarCard";
+import CarDetailsModal from "./CarDetailsModal";
+import FilterModal from "./FilterModal";
+import NoResult from "../../assets/no-result.png";
 
 // Import API functions and types
 import {
@@ -15,12 +15,12 @@ import {
   fetchCarTags,
   fetchCarTypes,
   fetchFilteredCars,
-} from "../api/cars";
-import type { Car } from "../types/Car";
+} from "../../api/cars";
+import type { Car } from "../../types/Car";
 import type { MenuProps } from "antd";
 import { Link } from "react-router-dom";
-import FilterIcon from "../components/FilterIcon";
-import ShortIcon from "../components/ShortIcon";
+import FilterIcon from "../../components/Icons/FilterIcon";
+import ShortIcon from "../../components/Icons/ShortIcon";
 
 // Interface for sort fields
 interface SortFields {

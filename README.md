@@ -1,56 +1,95 @@
-# DriveSpare
+# 🚗 DriveSpare
 
-# React + TypeScript + Vite
+A modern web application built with Vite, React, TypeScript, Tailwind CSS, and Ant Design.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## 🚀 Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 📋 Prerequisites
 
-## Expanding the ESLint configuration
+- **Node.js** (version 14 or higher)
+- **npm** (version 6 or higher)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🔧 Installation
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+1. **Clone the repository:**
+
+#### Using SSH:
+
+```bash
+git clone git@github.com:Prosanta17/DriveSpare.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+#### Using HTTPS:
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    "react-x": reactX,
-    "react-dom": reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs["recommended-typescript"].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```bash
+git clone https://github.com/Prosanta17/DriveSpare.git
 ```
+
+2. **Navigate to the project directory:**
+
+```bash
+cd DriveSpare
+```
+
+3. **Install dependencies:**
+
+```bash
+npm install
+```
+
+4. **Start the development server:**
+
+```bash
+npm run dev
+```
+
+Then open your browser at `http://localhost:5173`
+
+---
+
+## 📁 Project Structure
+
+- `src/`: Source code for the application
+- `public/`: Static assets
+- `vite.config.ts`: Vite configuration file
+- `tsconfig.json`: TypeScript configuration file
+- `tailwind.config.js`: Tailwind CSS configuration file
+
+---
+
+## ✨ Features
+
+- Fast and efficient development with Vite
+- Robust type checking with TypeScript
+- Stylish and responsive UI with Tailwind CSS and Ant Design
+- Easy state management with React
+
+---
+
+## 🛠 Technologies Used
+
+- **Vite**: Fast and efficient development server
+- **React**: JavaScript library for building user interfaces
+- **TypeScript**: Statically typed JavaScript for better code quality
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **Ant Design**: Popular React UI component library
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you'd like to contribute to DriveSpare, please fork the repository and submit a pull request.
+
+---
+
+## 📄 License
+
+[Insert license information]
+
+---
+
+## 👤 Author
+
+**Prosanta17**

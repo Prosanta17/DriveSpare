@@ -1,5 +1,5 @@
 import React from "react";
-import ClientsLogo from "../assets/clients.png";
+import ClientsLogo from "../../assets/clients.png";
 
 const Clients: React.FC = () => {
   const logos: string[] = [

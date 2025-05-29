@@ -3,7 +3,7 @@ import { Button, Card, Input, Select, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { fetchCarTags, fetchCarTypes } from "../api/cars";
+import { fetchCarTags, fetchCarTypes } from "../../api/cars";
 
 // Define form data interface
 interface FormData {

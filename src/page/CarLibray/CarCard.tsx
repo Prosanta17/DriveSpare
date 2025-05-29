@@ -1,10 +1,10 @@
 import { Card, Tag, Modal, message } from "antd";
-import type { Car } from "../types/Car";
+import type { Car } from "../../types/Car";
 import { useEffect, useRef, useState } from "react";
-import placeholderImg from "../assets/car-placeholder.jpg";
+import placeholderImg from "../../assets/car-placeholder.jpg";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { deleteCar } from "../api/cars";
-import DeleteIcon from "./DeleteIcon";
+import { deleteCar } from "../../api/cars";
+import DeleteIcon from "../../components/Icons/DeleteIcon";
 
 // Props interface definition
 interface Props {

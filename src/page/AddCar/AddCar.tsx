@@ -1,5 +1,5 @@
 import React from "react";
-import AddcarForm from "../components/AddcarForm";
+import AddcarForm from "./AddcarForm";
 
 const AddCar: React.FC = () => {
   return (
