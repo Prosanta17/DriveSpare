@@ -1,10 +1,19 @@
 import React from "react";
+import HeroSlider from "../components/HeroSlider";
+import AboutUs from "../components/ShortAboutUs";
+import Featured from "../components/Featured";
+import Clients from "../components/Clients";
+import Testimonials from "../components/Testimonials";
 
 const Home: React.FC = () => {
   return (
-    <div className="w-full px-6 py-10">
-      <h1>This is Home page</h1>
-    </div>
+    <>
+      <HeroSlider />
+      <AboutUs />
+      <Featured />
+      <Clients />
+      <Testimonials />
+    </>
   );
 };
 
