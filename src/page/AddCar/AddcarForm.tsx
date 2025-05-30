@@ -107,7 +107,7 @@ const AddcarForm: React.FC = () => {
   // Render form component
   return (
     <div className="w-full lg:w-3/5 mx-auto max-w-[575px]">
-      <Card className="addcar-form">
+      <Card className="addcar-form shadow-card">
         {/* Car name input field */}
         <div className="mb-4">
           <label htmlFor="name" className="block text-xs mb-2">

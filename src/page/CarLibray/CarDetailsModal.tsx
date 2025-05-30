@@ -93,7 +93,7 @@ const CarDetailsModal: React.FC<CarDetailsModalProps> = ({
             <h3 className="font-bold uppercase text-sm mb-2">SPECIFICATIONS</h3>
             {car.tags?.map((tag) => (
               <Tag key={tag} className="border-primary">
-                {tag}
+                {tag.charAt(0).toUpperCase() + tag.slice(1)}
               </Tag>
             ))}
           </div>

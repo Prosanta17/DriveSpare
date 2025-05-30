@@ -21,6 +21,7 @@ import type { MenuProps } from "antd";
 import { Link } from "react-router-dom";
 import FilterIcon from "../../components/Icons/FilterIcon";
 import ShortIcon from "../../components/Icons/ShortIcon";
+import useDebounce from "../../hooks/useDebounce";
 
 // Interface for sort fields
 interface SortFields {
@@ -155,9 +156,12 @@ const CarLibrary: React.FC = () => {
     setCars((prev) => prev.filter((car) => car.id !== id));
   };
 
+  // Debounce search term to avoid excessive API calls
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+
   // Filter cars based on search term
   const filteredCars = cars.filter((car) =>
-    car.name.toLowerCase().includes(searchTerm.toLowerCase())
+    car.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
 
   return (
@@ -226,7 +230,7 @@ const CarLibrary: React.FC = () => {
           {/* Add car button */}
           <Link
             to="/add-car"
-            className="fixed bottom-10 right-10 md:inline-block bg-primary text-white text-base font-bold px-8 py-3 rounded-full hover:bg-purple-700 transition"
+            className="fixed bottom-10 shadow-button right-10 md:inline-block bg-primary text-white text-base font-bold px-8 py-3 rounded-full hover:bg-purple-700 transition"
           >
             + Add Car
           </Link>

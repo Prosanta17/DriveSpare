@@ -1,7 +1,9 @@
 import { Carousel } from "antd";
 import { Link } from "react-router-dom";
 
+// Hero slider component for the homepage
 const HeroSlider: React.FC = () => {
+  // Array of slide data containing images, captions and descriptions
   const slides = [
     {
       id: 1,
@@ -30,20 +32,26 @@ const HeroSlider: React.FC = () => {
   ];
 
   return (
+    // Container for the carousel with fixed height
     <div className="w-full h-[500px] overflow-hidden">
+      {/* Antd Carousel component with autoplay and drag functionality */}
       <Carousel autoplay draggable>
         {slides.map((slide) => (
+          // Individual slide container
           <div key={slide.id} className="relative h-[500px]">
+            {/* Slide background image */}
             <img
               src={slide.image}
               alt={`Slide ${slide.id}`}
               className="w-full h-full object-cover"
             />
+            {/* Content overlay with text and button */}
             <div className="absolute inset-0 md:top-1/3 md:left-10 bg-black bg-opacity-60 flex flex-col items-start justify-center p-8 sm:p-16 md:max-w-xl">
               <h3 className="text-white text-4xl font-oswald font-bold">
                 {slide.caption}
               </h3>
               <p className="text-white text-lg mt-2">{slide.description}</p>
+              {/* Navigation link to services page */}
               <Link
                 to="/services"
                 className="bg-primary text-white px-5 py-2 rounded-full hover:bg-purple-700 hover:text-white transition duration-300 mt-4"

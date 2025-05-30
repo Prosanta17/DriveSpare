@@ -1,10 +1,13 @@
+// Interface defining the structure of featured content items
 interface FeaturedContent {
   title: string;
   text: string;
   img: string;
 }
 
+// Featured component displaying alternating content sections
 const Featured: React.FC = () => {
+  // Array of featured content items with their details
   const content: FeaturedContent[] = [
     {
       title: "Search & Filter Cars",
@@ -19,19 +22,23 @@ const Featured: React.FC = () => {
   ];
 
   return (
+    // Main section container with gray background
     <section className="bg-gray-50">
       {content.map((item, index) => (
+        // Content item container with alternating layout based on index
         <div
           key={index}
           className={`flex flex-col md:flex-row ${
             index % 2 !== 0 ? "md:flex-row-reverse" : ""
           } items-center md:gap-8`}
         >
+          {/* Featured image */}
           <img
             src={item.img}
             alt={item.title}
             className="w-full md:w-1/2 shadow"
           />
+          {/* Content text container */}
           <div className="md:w-1/2 p-6 text-center md:text-left">
             <h3 className="text-3xl font-oswald font-semibold mb-2">
               {item.title}

@@ -61,7 +61,7 @@ const FilterModal: React.FC<Props> = ({
         </Button>,
       ]}
       onCancel={onCancel}
-      width={500}
+      width={400}
       centered
       className="filter-modal"
     >
@@ -100,7 +100,7 @@ const FilterModal: React.FC<Props> = ({
             ),
             children: (
               // Car type filter tags
-              <div className="flex flex-wrap gap-1">
+              <>
                 {carTypes.map((type) => (
                   <Tag
                     key={type}
@@ -118,17 +118,19 @@ const FilterModal: React.FC<Props> = ({
                     {type.charAt(0).toUpperCase() + type.slice(1)}
                   </Tag>
                 ))}
-              </div>
+              </>
             ),
           },
           {
             key: "tags",
             label: (
-              <span className="text-xs uppercase font-semibold">Tags</span>
+              <span className="text-xs uppercase font-semibold">
+                specifications
+              </span>
             ),
             children: (
               // Tags filter section
-              <div className="flex flex-wrap gap-1">
+              <>
                 {tags.map((tag) => (
                   <Tag
                     key={tag}
@@ -137,6 +139,7 @@ const FilterModal: React.FC<Props> = ({
                     style={{
                       cursor: "pointer",
                       padding: "0.2rem 1rem",
+                      marginBottom: "0.5rem",
                       borderRadius: "1rem",
                       color: selectedTags.includes(tag) ? "#9B72D2" : "black",
                     }}
@@ -144,7 +147,7 @@ const FilterModal: React.FC<Props> = ({
                     {tag.charAt(0).toUpperCase() + tag.slice(1)}
                   </Tag>
                 ))}
-              </div>
+              </>
             ),
           },
         ]}
